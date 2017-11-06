@@ -4,10 +4,10 @@ API to Manage Things on Lorien. Used to create, update, read and delete Things. 
 These are the fields of the thing and it's constrains:
 - thingId: Id of the Thing given by the user or by de Database.
   - Integer
-  - Optional on Create, mandatory on the other methods
+  - Ignored on Create, mandatory on the other methods
 - parentThingId: Id of the thing wich this thing belong to.
   - Integer
-  - Optional
+  -  Ignored on Create and Update
 - thingName: Name of the Thing given by the user.
   - String (Up to 50 chars)
   - Mandatory
@@ -28,7 +28,8 @@ These are the fields of the thing and it's constrains:
   - Optional
 - childrenThingsIds: List of Id of thing from which this one is parent.
   - Array Integer
-  - Optional
+  -  Ignored on Create and Update
+  
 ### JSON Example:
 ```json
 {

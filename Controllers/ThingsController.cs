@@ -41,6 +41,9 @@ namespace ThingsAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Thing thing)
         {
+            thing.thingId = 0;
+            thing.parentThingId = null;
+            thing.childrenThingsIds = new int[0];
             if (ModelState.IsValid)
             {
                 await _context.AddAsync(thing);
@@ -56,6 +59,9 @@ namespace ThingsAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var curThing = await _context.Things.Where(x => x.thingId == id).FirstOrDefaultAsync();
+                thing.childrenThingsIds = curThing.childrenThingsIds;
+                thing.parentThingId = curThing.parentThingId;
                 if (id != thing.thingId)
                 {
                     return NotFound();

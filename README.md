@@ -29,6 +29,35 @@ These are the fields of the thing and it's constrains:
 - childrenThingsIds: List of Id of thing from which this one is parent.
   - Array Integer
   - Optional
+### JSON Example:
+```json
+{
+"thingId": 3,
+"parentThingId": 1,
+"thingName": "coisa1",
+"description": "Cposa1",
+"physicalConnection": null,
+"enabled": true,
+"thingCode": "x",
+"position": 0,
+"childrenThingsIds": null
+}
+```
+## URLs
+- api/things/
+  - Get: Return List of Things
+  - Post: Create the Thing with the JSON in the body
+    - Body: Thing JSON
 
+- api/things/{id}
+  - Get: Return Thing with thingId = ID
+  - Put: Update the Thing with the JSON in the body
+    - Body: Thing JSON
+  - Delete: Disable Thing with thingId = ID
 
+- api/things/childrenthings/{parentId}
+  - Get: Return List of Things which the parent is parentId
+  - Post: Insert the Thing with the JSON in the body as child of the parent Thing
+    - Body: Thing JSON
+  - Delete: Remove Thing with JSON in the body as child of parent Thing.
 

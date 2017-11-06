@@ -26,7 +26,7 @@ namespace ThingsAPI.Controllers
 
             if (quantity == 0)
                 quantity = 50;
-            var things = await _context.Things.OrderBy(x => x.thingId).Skip(startat).Take(quantity).ToListAsync();
+            var things = await _context.Things.Where(x => x.enabled == true).OrderBy(x => x.thingId).Skip(startat).Take(quantity).ToListAsync();
             return Ok(things);
         }
 
@@ -74,7 +74,8 @@ namespace ThingsAPI.Controllers
             var thing = await _context.Things.Where(x => x.thingId == id).FirstOrDefaultAsync();
             if (thing != null)
             {
-                _context.Entry(thing).State = EntityState.Deleted;
+                thing.enabled = false;
+                _context.Entry(thing).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return NoContent();
             }

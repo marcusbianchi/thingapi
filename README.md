@@ -32,20 +32,22 @@ These are the fields of the thing and it's constrains:
 ### JSON Example:
 ```json
 {
-"thingId": 3,
-"parentThingId": 1,
-"thingName": "coisa1",
-"description": "Cposa1",
-"physicalConnection": null,
-"enabled": true,
-"thingCode": "x",
-"position": 0,
-"childrenThingsIds": null
+    "thingId": 3,
+    "parentThingId": 1,
+    "thingName": "coisa1",
+    "description": "Cposa1",
+    "physicalConnection": null,
+    "enabled": true,
+    "thingCode": "x",
+    "position": 0,
+    "childrenThingsIds": null
 }
 ```
 ## URLs
-- api/things/
+- api/things/{optional=startat}{optional=quantity}
   - Get: Return List of Things
+    - startat: represent where the list starts t the databse
+    - quantity: number of resuls in the query (Default=50)
   - Post: Create the Thing with the JSON in the body
     - Body: Thing JSON
 

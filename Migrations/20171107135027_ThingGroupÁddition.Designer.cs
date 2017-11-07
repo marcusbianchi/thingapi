@@ -11,9 +11,10 @@ using ThingsAPI.Data;
 namespace ThingsAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171107135027_ThingGroupÁddition")]
+    partial class ThingGroupÁddition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,7 +61,8 @@ namespace ThingsAPI.Migrations
                     b.Property<int>("thingGroupId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("enabled");
+                    b.Property<bool>("enabled")
+                        .HasMaxLength(100);
 
                     b.Property<string>("groupCode")
                         .HasMaxLength(50);

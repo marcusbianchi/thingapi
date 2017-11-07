@@ -6,6 +6,7 @@ namespace ThingsAPI.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Thing> Things { get; set; }
+        public DbSet<ThingGroup> ThingGroups { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
@@ -23,6 +24,14 @@ namespace ThingsAPI.Data
            .Property(x => x.position).HasDefaultValue(0);
             modelBuilder.Entity<Thing>()
            .Property(x => x.Description).HasMaxLength(100);
+
+
+            modelBuilder.Entity<ThingGroup>()
+                .Property(x => x.groupCode).HasMaxLength(50);
+            modelBuilder.Entity<ThingGroup>()
+            .Property(x => x.groupName).HasMaxLength(50);
+            modelBuilder.Entity<ThingGroup>()
+           .Property(x => x.groupDescription).HasMaxLength(100);
         }
     }
 }

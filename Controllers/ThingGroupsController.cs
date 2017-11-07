@@ -10,11 +10,11 @@ using ThingsAPI.Model;
 namespace ThingsAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class ThingsController : Controller
+    public class ThingGroupsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ThingsController(ApplicationDbContext context)
+        public ThingGroupsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -26,47 +26,45 @@ namespace ThingsAPI.Controllers
 
             if (quantity == 0)
                 quantity = 50;
-            var things = await _context.Things.Where(x => x.enabled == true).OrderBy(x => x.thingId).Skip(startat).Take(quantity).ToListAsync();
-            return Ok(things);
+            var groups = await _context.ThingGroups.Where(x => x.enabled == true).OrderBy(x => x.thingGroupId).Skip(startat).Take(quantity).ToListAsync();
+            return Ok(groups);
         }
 
         [HttpGet("{id}")]
         [ResponseCache(CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get(int id)
         {
-            var thing = await _context.Things.OrderBy(x => x.thingId).Where(x => x.thingId == id).FirstOrDefaultAsync(); ;
-            return Ok(thing);
+            var group = await _context.ThingGroups.OrderBy(x => x.thingGroupId).Where(x => x.thingGroupId == id).FirstOrDefaultAsync(); ;
+            return Ok(group);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Thing thing)
+        public async Task<IActionResult> Post([FromBody]ThingGroup thingGroup)
         {
-            thing.thingId = 0;
-            thing.parentThingId = null;
-            thing.childrenThingsIds = new int[0];
+            thingGroup.thingGroupId = 0;
+            thingGroup.thingsIds = new int[0];
             if (ModelState.IsValid)
             {
-                await _context.AddAsync(thing);
+                await _context.AddAsync(thingGroup);
                 await _context.SaveChangesAsync();
 
-                return Created($"api/things/{thing.thingId}", thing);
+                return Created($"api/thinggroups/{thingGroup.thingGroupId}", thingGroup);
             }
             return BadRequest(ModelState);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]Thing thing)
+        public async Task<IActionResult> Put(int id, [FromBody]ThingGroup thingGroup)
         {
             if (ModelState.IsValid)
             {
-                var curThing = await _context.Things.AsNoTracking().Where(x => x.thingId == id).FirstOrDefaultAsync();
-                thing.childrenThingsIds = curThing.childrenThingsIds;
-                thing.parentThingId = curThing.parentThingId;
-                if (id != thing.thingId)
+                var curThing = await _context.ThingGroups.AsNoTracking().Where(x => x.thingGroupId == id).FirstOrDefaultAsync();
+                thingGroup.thingsIds = curThing.thingsIds;
+                if (id != thingGroup.thingGroupId)
                 {
                     return NotFound();
                 }
-                _context.Things.Update(thing);
+                _context.ThingGroups.Update(thingGroup);
                 await _context.SaveChangesAsync();
                 return NoContent();
 
@@ -77,11 +75,11 @@ namespace ThingsAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var thing = await _context.Things.Where(x => x.thingId == id).FirstOrDefaultAsync();
-            if (thing != null)
+            var curThing = await _context.ThingGroups.Where(x => x.thingGroupId == id).FirstOrDefaultAsync();
+            if (curThing != null)
             {
-                thing.enabled = false;
-                _context.Entry(thing).State = EntityState.Modified;
+                curThing.enabled = false;
+                _context.Entry(curThing).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return NoContent();
             }

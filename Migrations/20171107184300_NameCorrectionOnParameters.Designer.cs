@@ -11,9 +11,10 @@ using ThingsAPI.Data;
 namespace ThingsAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171107184300_NameCorrectionOnParameters")]
+    partial class NameCorrectionOnParameters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +29,8 @@ namespace ThingsAPI.Migrations
                     b.Property<string>("ParameterCode")
                         .HasMaxLength(50);
 
+                    b.Property<bool>("enabled");
+
                     b.Property<string>("parameterDescription")
                         .HasMaxLength(100);
 
@@ -38,7 +41,7 @@ namespace ThingsAPI.Migrations
                     b.Property<string>("physicalTag")
                         .HasMaxLength(100);
 
-                    b.Property<int>("thingGroupId");
+                    b.Property<int?>("thingGroupId");
 
                     b.HasKey("parameterId");
 
@@ -111,9 +114,8 @@ namespace ThingsAPI.Migrations
             modelBuilder.Entity("ThingsAPI.Model.Parameter", b =>
                 {
                     b.HasOne("ThingsAPI.Model.ThingGroup")
-                        .WithMany("parameters")
-                        .HasForeignKey("thingGroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("paremeters")
+                        .HasForeignKey("thingGroupId");
                 });
 #pragma warning restore 612, 618
         }

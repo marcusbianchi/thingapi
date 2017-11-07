@@ -11,9 +11,10 @@ using ThingsAPI.Data;
 namespace ThingsAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171107185537_EnableRemoveParameters")]
+    partial class EnableRemoveParameters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,7 +112,7 @@ namespace ThingsAPI.Migrations
             modelBuilder.Entity("ThingsAPI.Model.Parameter", b =>
                 {
                     b.HasOne("ThingsAPI.Model.ThingGroup")
-                        .WithMany("parameters")
+                        .WithMany("paremeters")
                         .HasForeignKey("thingGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

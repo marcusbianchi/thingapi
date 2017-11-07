@@ -17,5 +17,6 @@ namespace ThingsAPI.Model
         public string groupCode { get; set; }
         [Column("thingsIds", TypeName = "integer[]")]
         public int[] thingsIds { get; set; }
+        public ICollection<Parameter> parameters { get; set; }
     }
 }

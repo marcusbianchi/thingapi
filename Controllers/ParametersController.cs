@@ -10,76 +10,71 @@ using ThingsAPI.Model;
 namespace ThingsAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class ThingGroupsController : Controller
+    public class ParametersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ThingGroupsController(ApplicationDbContext context)
+        public ParametersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [ResponseCache(CacheProfileName = "thingscache")]
-        public async Task<IActionResult> Get([FromQuery]int startat, [FromQuery]int quantity)
+        public async Task<IActionResult> Get([FromQuery]int startat, [FromQuery]int quantity, [FromQuery]int thingGroupId)
         {
 
             if (quantity == 0)
                 quantity = 50;
-            var groups = await _context.ThingGroups
-            .Include(x => x.parameters)
-            .Where(x => x.enabled == true)
+            var paremeters = await _context.Parameters
             .OrderBy(x => x.thingGroupId)
             .Skip(startat).Take(quantity)
             .ToListAsync();
-            return Ok(groups);
+            return Ok(paremeters);
         }
 
         [HttpGet("{id}")]
         [ResponseCache(CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get(int id)
         {
-            var group = await _context.ThingGroups
-            .Include(x => x.parameters)
-            .OrderBy(x => x.thingGroupId)
-            .Where(x => x.thingGroupId == id)
-            .FirstOrDefaultAsync(); ;
-            return Ok(group);
+            var thing = await _context.Parameters.Where(x => x.parameterId == id).FirstOrDefaultAsync(); ;
+            return Ok(thing);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ThingGroup thingGroup)
+        public async Task<IActionResult> Post([FromBody]Parameter parameter)
         {
-            thingGroup.thingGroupId = 0;
-            thingGroup.thingsIds = new int[0];
+            parameter.parameterId = 0;
+            parameter.physicalTag = parameter.physicalTag != null ? parameter.physicalTag.ToLower() : null;
             if (ModelState.IsValid)
             {
-                await _context.AddAsync(thingGroup);
+                await _context.AddAsync(parameter);
                 await _context.SaveChangesAsync();
 
-                return Created($"api/thinggroups/{thingGroup.thingGroupId}", thingGroup);
+                return Created($"api/parameters/{parameter.parameterId}", parameter);
             }
             return BadRequest(ModelState);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]ThingGroup thingGroup)
+        public async Task<IActionResult> Put(int id, [FromBody]Parameter parameter)
         {
             if (ModelState.IsValid)
             {
-                var curThing = await _context.ThingGroups
+                var curThing = await _context.Parameters
                 .AsNoTracking()
-                .Where(x => x.thingGroupId == id)
+                .Where(x => x.parameterId == id)
                 .FirstOrDefaultAsync();
-                thingGroup.thingsIds = curThing.thingsIds;
-                if (id != thingGroup.thingGroupId)
+
+                parameter.physicalTag = parameter.physicalTag != null ? parameter.physicalTag.ToLower() : null;
+
+                if (id != parameter.parameterId)
                 {
                     return NotFound();
                 }
-                _context.ThingGroups.Update(thingGroup);
+                _context.Parameters.Update(parameter);
                 await _context.SaveChangesAsync();
                 return NoContent();
-
             }
             return BadRequest(ModelState);
         }
@@ -87,13 +82,10 @@ namespace ThingsAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var curThing = await _context.ThingGroups
-            .Where(x => x.thingGroupId == id)
-            .FirstOrDefaultAsync();
-            if (curThing != null)
+            var parameter = await _context.Parameters.Where(x => x.parameterId == id).FirstOrDefaultAsync();
+            if (parameter != null)
             {
-                curThing.enabled = false;
-                _context.Entry(curThing).State = EntityState.Modified;
+                _context.Entry(parameter).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
                 return NoContent();
             }

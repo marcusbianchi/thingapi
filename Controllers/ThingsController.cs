@@ -44,6 +44,7 @@ namespace ThingsAPI.Controllers
             thing.thingId = 0;
             thing.parentThingId = null;
             thing.childrenThingsIds = new int[0];
+            thing.physicalConnection = thing.physicalConnection != null ? thing.physicalConnection.ToLower() : null;
             if (ModelState.IsValid)
             {
                 await _context.AddAsync(thing);
@@ -61,6 +62,7 @@ namespace ThingsAPI.Controllers
             {
                 var curThing = await _context.Things.AsNoTracking().Where(x => x.thingId == id).FirstOrDefaultAsync();
                 thing.childrenThingsIds = curThing.childrenThingsIds;
+                thing.physicalConnection = thing.physicalConnection != null ? thing.physicalConnection.ToLower() : null;
                 thing.parentThingId = curThing.parentThingId;
                 if (id != thing.thingId)
                 {

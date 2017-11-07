@@ -28,7 +28,7 @@ These are the fields of the thing and it's constrains:
   - Optional
 - childrenThingsIds: List of Id of thing from which this one is parent.
   - Array Integer
-  -  Ignored on Create and Update
+  - Ignored on Create and Update
   
 ### JSON Example:
 ```json
@@ -86,8 +86,11 @@ These are the fields of the thing and it's constrains:
   - Optional
 - thingsIds: List of Id of things that belong to this group.
   - Array Integer
-  -  Ignored on Create and Update
-  ### JSON Example:
+  - Ignored on Create and Update
+- parameters: List of the group's parameters
+  - Array Parameters
+  - Ignored on Create and Update
+### JSON Example:
 ```json
 {
   "thingGroupId": 2,
@@ -118,3 +121,50 @@ These are the fields of the thing and it's constrains:
     - Body: Thing JSON
   - Delete: Remove Thing with JSON in the body of the group where GroupId = groupId
     - Body: Thing JSON
+
+# ParametersAPI
+API to Manage Groups of Things on Lorien. Used to create, update, read and delete groups. Also responsible for managing its members.
+## Parameter Data Format
+These are the fields of the thing and it's constrains:
+- parameterId: Id of the Parameter given by de Database.
+  - Integer
+  - Ignored on Create, mandatory on the other methods
+- parameterName: Name of the Parameter given by the user.
+  - String (Up to 50 chars)
+  - Mandatory
+- parameterDescription: Free description of the Group.
+  - String (Up to 100 chars)
+  - Optional
+- physicalTag: Name of the Tag that represent this parameter on the real world.
+  - String (Up to 100 chars)
+  - Optional
+- parameterCode: Code that might be used by the end user to identify the Parameter easily.
+  - String (Up to 100 chars)
+  - Optional
+- thingGroupId: Id of group that has this parameter.
+  - Integer
+  - Mandatory on Create and on Update
+  ### JSON Example:
+```json
+{
+  "parameterId": 1,
+  "parameterName": "da",
+  "parameterDescription": "das",
+  "physicalTag": "asda",
+  "parameterCode": "teste",
+  "thingGroupId": 5
+}
+```
+## URLs
+- api/thinggroups/{optional=startat}{optional=quantity}
+  - Get: Return List of Parameters
+    - startat: represent where the list starts t the database (Default=0)
+    - quantity: number of resuls in the query (Default=50)
+  - Post: Create the Parameter with the JSON in the body
+    - Body: Parameter JSON
+
+- api/thinggroups/{id}
+  - Get: Return Parameter with parameterId = ID
+  - Put: Update the Parameter with the JSON in the body with parameterId = ID
+    - Body: Parameter JSON
+  - Delete: Delete the parameter from the Database with parameterId = ID

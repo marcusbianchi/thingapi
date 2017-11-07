@@ -98,7 +98,24 @@ These are the fields of the thing and it's constrains:
   "groupDescription": "teste",
   "enabled": true,
   "groupCode": "teste",
-  "thingsIds": []
+  "thingsIds": [],
+  "parameters": [
+  {
+    "parameterId": 1,
+    "parameterName": "da",
+    "parameterDescription": "das",
+    "physicalTag": "asda",
+    "parameterCode": "teste",
+    "thingGroupId": 5
+  },
+  {
+    "parameterId": 3,
+    "parameterName": "da",
+    "parameterDescription": "das",
+    "physicalTag": "xxxxxxxxxxxx",
+    "parameterCode": "teste",
+    "thingGroupId": 5
+  }]
 }
 ```
 ## URLs

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using ThingsAPI.Data;
+using thingservice.Data;
 
-namespace ThingsAPI.Migrations
+namespace thingservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20171106124204_ThingIdIssueResolver")]
@@ -21,7 +21,7 @@ namespace ThingsAPI.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
-            modelBuilder.Entity("ThingsAPI.Model.Thing", b =>
+            modelBuilder.Entity("thingservice.Model.Thing", b =>
                 {
                     b.Property<int>("thingId")
                         .ValueGeneratedOnAdd();

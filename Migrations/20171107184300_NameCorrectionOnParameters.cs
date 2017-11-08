@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ThingsAPI.Migrations
+namespace thingservice.Migrations
 {
     public partial class NameCorrectionOnParameters : Migration
     {

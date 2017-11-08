@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ThingsAPI.Model;
+using thingservice.Model;
 
-namespace ThingsAPI.Data
+namespace thingservice.Data
 {
     public class ApplicationDbContext : DbContext
     {

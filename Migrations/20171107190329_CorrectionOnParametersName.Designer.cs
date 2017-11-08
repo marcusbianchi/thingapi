@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using ThingsAPI.Data;
+using thingservice.Data;
 
-namespace ThingsAPI.Migrations
+namespace thingservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20171107190329_CorrectionOnParametersName")]
@@ -21,7 +21,7 @@ namespace ThingsAPI.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
-            modelBuilder.Entity("ThingsAPI.Model.Parameter", b =>
+            modelBuilder.Entity("thingservice.Model.Parameter", b =>
                 {
                     b.Property<int>("parameterId")
                         .ValueGeneratedOnAdd();
@@ -48,7 +48,7 @@ namespace ThingsAPI.Migrations
                     b.ToTable("Parameters");
                 });
 
-            modelBuilder.Entity("ThingsAPI.Model.Thing", b =>
+            modelBuilder.Entity("thingservice.Model.Thing", b =>
                 {
                     b.Property<int>("thingId")
                         .ValueGeneratedOnAdd();
@@ -83,7 +83,7 @@ namespace ThingsAPI.Migrations
                     b.ToTable("Things");
                 });
 
-            modelBuilder.Entity("ThingsAPI.Model.ThingGroup", b =>
+            modelBuilder.Entity("thingservice.Model.ThingGroup", b =>
                 {
                     b.Property<int>("thingGroupId")
                         .ValueGeneratedOnAdd();
@@ -109,9 +109,9 @@ namespace ThingsAPI.Migrations
                     b.ToTable("ThingGroups");
                 });
 
-            modelBuilder.Entity("ThingsAPI.Model.Parameter", b =>
+            modelBuilder.Entity("thingservice.Model.Parameter", b =>
                 {
-                    b.HasOne("ThingsAPI.Model.ThingGroup")
+                    b.HasOne("thingservice.Model.ThingGroup")
                         .WithMany("parameters")
                         .HasForeignKey("thingGroupId")
                         .OnDelete(DeleteBehavior.Cascade);

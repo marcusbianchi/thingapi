@@ -12,9 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using ThingsAPI.Data;
+using thingservice.Data;
 
-namespace ThingsAPI
+namespace thingservice
 {
     public class Startup
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ThingsAPI.Data;
-using ThingsAPI.Model;
+using thingservice.Data;
+using thingservice.Model;
 
-namespace ThingsAPI.Controllers
+namespace thingservice.Controllers
 {
     [Route("api/thinggroups/attachedthings/")]
     public class AttachedThingsController : Controller

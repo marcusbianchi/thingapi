@@ -43,7 +43,9 @@ namespace thingservice.Controllers
             .Include(x => x.parameters)
             .OrderBy(x => x.thingGroupId)
             .Where(x => x.thingGroupId == id)
-            .FirstOrDefaultAsync(); ;
+            .FirstOrDefaultAsync();
+            if (group == null)
+                return NotFound();
             return Ok(group);
         }
 

@@ -34,7 +34,13 @@ namespace thingservice.Controllers
         [ResponseCache(CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get(int id)
         {
-            var thing = await _context.Things.OrderBy(x => x.thingId).Where(x => x.thingId == id).FirstOrDefaultAsync(); ;
+            var thing = await _context.Things
+            .OrderBy(x => x.thingId)
+            .Where(x => x.thingId == id)
+            .FirstOrDefaultAsync(); ;
+            if (thing == null)
+                return NotFound();
+
             return Ok(thing);
         }
 

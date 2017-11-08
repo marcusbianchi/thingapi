@@ -37,8 +37,14 @@ namespace thingservice.Controllers
         [ResponseCache(CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get(int id)
         {
-            var thing = await _context.Parameters.Where(x => x.parameterId == id).FirstOrDefaultAsync(); ;
-            return Ok(thing);
+            var parameter = await _context.Parameters
+            .Where(x => x.parameterId == id)
+            .FirstOrDefaultAsync();
+
+            if (parameter == null)
+                return NotFound();
+
+            return Ok(parameter);
         }
 
         [HttpPost]

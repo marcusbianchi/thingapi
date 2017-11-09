@@ -33,6 +33,16 @@ namespace thingservice.Controllers
             return Ok(paremeters);
         }
 
+        [HttpGet("list/")]
+        [ResponseCache(CacheProfileName = "thingscache")]
+        public async Task<IActionResult> GetList([FromQuery]int[] parameterId)
+        {
+            var things = await _context.Parameters
+            .Where(x => parameterId.Contains(x.parameterId))
+            .ToListAsync();
+            return Ok(things);
+        }
+
         [HttpGet("{id}")]
         [ResponseCache(CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get(int id)

@@ -58,6 +58,9 @@ These are the fields of the thing and it's constrains:
     - Body: Thing JSON
   - Delete: Disable Thing with thingId = ID
 
+- api/things/list{thingid}{thingid}
+  - Get: Return List of Things with thingId = ID
+
 - api/things/childrenthings/{parentId}
   - Get: Return List of Things which the parent is parentId
   - Post: Insert the Thing with the JSON in the body as child of the parent Thing
@@ -90,7 +93,7 @@ These are the fields of the thing and it's constrains:
 - parameters: List of the group's parameters
   - Array Parameters
   - Ignored on Create and Update
-### JSON Example:
+### JSON Ex ample:
 ```json
 {
   "thingGroupId": 2,
@@ -185,3 +188,6 @@ These are the fields of the thing and it's constrains:
   - Put: Update the Parameter with the JSON in the body with parameterId = ID
     - Body: Parameter JSON
   - Delete: Delete the parameter from the Database with parameterId = ID
+
+  - api/parameters/list{parameterid}{parameterid}
+    - Get: Return List of Parameters with parameterid = ID

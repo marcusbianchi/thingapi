@@ -21,7 +21,7 @@ namespace thingservice.Controllers
 
         [HttpGet]
         [ResponseCache(CacheProfileName = "thingscache")]
-        public async Task<IActionResult> Get([FromQuery]int startat, [FromQuery]int quantity, [FromQuery]int thingGroupId)
+        public async Task<IActionResult> Get([FromQuery]int startat, [FromQuery]int quantity)
         {
 
             if (quantity == 0)

@@ -140,7 +140,7 @@ These are the fields of the thing and it's constrains:
     - Body: Thing JSON
 
 # ParametersAPI
-API to Manage Groups of Things on Lorien. Used to create, update, read and delete groups. Also responsible for managing its members.
+API to manage parameters Groups of Things on Lorien. Used to create, update, read and delete parameters.
 ## Parameter Data Format
 These are the fields of the thing and it's constrains:
 - parameterId: Id of the Parameter given by de Database.
@@ -173,14 +173,14 @@ These are the fields of the thing and it's constrains:
 }
 ```
 ## URLs
-- api/thinggroups/{optional=startat}{optional=quantity}
+- api/parameters/{optional=startat}{optional=quantity}
   - Get: Return List of Parameters
     - startat: represent where the list starts t the database (Default=0)
     - quantity: number of resuls in the query (Default=50)
   - Post: Create the Parameter with the JSON in the body
     - Body: Parameter JSON
 
-- api/thinggroups/{id}
+- api/parameters/{id}
   - Get: Return Parameter with parameterId = ID
   - Put: Update the Parameter with the JSON in the body with parameterId = ID
     - Body: Parameter JSON

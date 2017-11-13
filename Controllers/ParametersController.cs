@@ -28,6 +28,24 @@ namespace thingservice.Controllers
                 quantity = 50;
             var paremeters = await _context.Parameters
             .OrderBy(x => x.thingGroupId)
+             .Select(item => new
+             {
+                 item.ParameterCode,
+                 item.parameterDescription,
+                 item.parameterId,
+                 item.parameterName,
+                 item.physicalTag,
+                 item.thingGroupId,
+                 thingGroup = new
+                 {
+                     item.thingGroupId,
+                     item.thingGroup.groupCode,
+                     item.thingGroup.groupDescription,
+                     item.thingGroup.groupName,
+                     item.thingGroup.thingsIds
+                 }
+             })
+
             .Skip(startat).Take(quantity)
             .ToListAsync();
             return Ok(paremeters);
@@ -39,6 +57,23 @@ namespace thingservice.Controllers
         {
             var things = await _context.Parameters
             .Where(x => parameterId.Contains(x.parameterId))
+            .Select(item => new
+            {
+                item.ParameterCode,
+                item.parameterDescription,
+                item.parameterId,
+                item.parameterName,
+                item.physicalTag,
+                item.thingGroupId,
+                thingGroup = new
+                {
+                    item.thingGroupId,
+                    item.thingGroup.groupCode,
+                    item.thingGroup.groupDescription,
+                    item.thingGroup.groupName,
+                    item.thingGroup.thingsIds
+                }
+            })
             .ToListAsync();
             return Ok(things);
         }
@@ -48,7 +83,23 @@ namespace thingservice.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var parameter = await _context.Parameters
-            .Where(x => x.parameterId == id)
+            .Where(x => x.parameterId == id).Select(item => new
+            {
+                item.ParameterCode,
+                item.parameterDescription,
+                item.parameterId,
+                item.parameterName,
+                item.physicalTag,
+                item.thingGroupId,
+                thingGroup = new
+                {
+                    item.thingGroupId,
+                    item.thingGroup.groupCode,
+                    item.thingGroup.groupDescription,
+                    item.thingGroup.groupName,
+                    item.thingGroup.thingsIds
+                }
+            })
             .FirstOrDefaultAsync();
 
             if (parameter == null)

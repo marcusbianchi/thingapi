@@ -164,6 +164,10 @@ These are the fields of the thing and it's constrains:
 - thingGroupId: Id of group that has this parameter.
   - Integer
   - Mandatory on Create and on Update
+- thingGroup: Object of the group which this parameter belongs to.
+  - ThingGroup JSON
+  - Ignored on Create, mandatory on the other methods
+
   ### JSON Example:
 ```json
 {
@@ -172,7 +176,15 @@ These are the fields of the thing and it's constrains:
   "parameterDescription": "das",
   "physicalTag": "asda",
   "parameterCode": "teste",
-  "thingGroupId": 5
+  "thingGroupId": 5,
+  "thingGroup": 
+  {
+    "thingGroupId": 5,
+    "groupCode": "teste",
+    "groupDescription": "teste",
+    "groupName": "teste",
+    "thingsIds": []
+  }
 }
 ```
 ## URLs

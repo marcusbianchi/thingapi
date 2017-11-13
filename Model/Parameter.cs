@@ -17,5 +17,6 @@ namespace thingservice.Model
         [MaxLength(50)]
         public string ParameterCode { get; set; }
         public int thingGroupId { get; set; }
+        public ThingGroup thingGroup { get; set; }
     }
 }

@@ -10,11 +10,11 @@ using thingservice.Model;
 namespace thingservice.Controllers
 {
     [Route("api/[controller]")]
-    public class ParametersController : Controller
+    public class TagsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ParametersController(ApplicationDbContext context)
+        public TagsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -26,14 +26,13 @@ namespace thingservice.Controllers
 
             if (quantity == 0)
                 quantity = 50;
-            var paremeters = await _context.Parameters
+            var paremeters = await _context.Tags
             .OrderBy(x => x.thingGroupId)
              .Select(item => new
              {
-                 item.ParameterCode,
-                 item.parameterDescription,
-                 item.parameterId,
-                 item.parameterName,
+                 item.tagId,
+                 item.tagDescription,
+                 item.tagName,
                  item.physicalTag,
                  item.thingGroupId,
                  thingGroup = new
@@ -53,16 +52,15 @@ namespace thingservice.Controllers
 
         [HttpGet("list/")]
         [ResponseCache(CacheProfileName = "thingscache")]
-        public async Task<IActionResult> GetList([FromQuery]int[] parameterId)
+        public async Task<IActionResult> GetList([FromQuery]int[] tagId)
         {
-            var things = await _context.Parameters
-            .Where(x => parameterId.Contains(x.parameterId))
+            var things = await _context.Tags
+            .Where(x => tagId.Contains(x.tagId))
             .Select(item => new
             {
-                item.ParameterCode,
-                item.parameterDescription,
-                item.parameterId,
-                item.parameterName,
+                item.tagId,
+                item.tagDescription,
+                item.tagName,
                 item.physicalTag,
                 item.thingGroupId,
                 thingGroup = new
@@ -82,13 +80,12 @@ namespace thingservice.Controllers
         [ResponseCache(CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get(int id)
         {
-            var parameter = await _context.Parameters
-            .Where(x => x.parameterId == id).Select(item => new
+            var parameter = await _context.Tags
+            .Where(x => x.tagId == id).Select(item => new
             {
-                item.ParameterCode,
-                item.parameterDescription,
-                item.parameterId,
-                item.parameterName,
+                item.tagId,
+                item.tagDescription,
+                item.tagName,
                 item.physicalTag,
                 item.thingGroupId,
                 thingGroup = new
@@ -109,37 +106,38 @@ namespace thingservice.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Parameter parameter)
+        public async Task<IActionResult> Post([FromBody]Tag tag)
         {
-            parameter.parameterId = 0;
-            parameter.physicalTag = parameter.physicalTag != null ? parameter.physicalTag.ToLower() : null;
+
             if (ModelState.IsValid)
             {
-                await _context.AddAsync(parameter);
+                tag.tagId = 0;
+                tag.physicalTag = tag.physicalTag != null ? tag.physicalTag.ToLower() : null;
+                await _context.AddAsync(tag);
                 await _context.SaveChangesAsync();
 
-                return Created($"api/parameters/{parameter.parameterId}", parameter);
+                return Created($"api/tags/{tag.tagId}", tag);
             }
             return BadRequest(ModelState);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]Parameter parameter)
+        public async Task<IActionResult> Put(int id, [FromBody]Tag tag)
         {
             if (ModelState.IsValid)
             {
-                var curThing = await _context.Parameters
+                var curThing = await _context.Tags
                 .AsNoTracking()
-                .Where(x => x.parameterId == id)
+                .Where(x => x.tagId == id)
                 .FirstOrDefaultAsync();
 
-                parameter.physicalTag = parameter.physicalTag != null ? parameter.physicalTag.ToLower() : null;
+                tag.physicalTag = tag.physicalTag != null ? tag.physicalTag.ToLower() : null;
 
-                if (id != parameter.parameterId)
+                if (id != tag.tagId)
                 {
                     return NotFound();
                 }
-                _context.Parameters.Update(parameter);
+                _context.Tags.Update(tag);
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
@@ -149,7 +147,7 @@ namespace thingservice.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var parameter = await _context.Parameters.Where(x => x.parameterId == id).FirstOrDefaultAsync();
+            var parameter = await _context.Tags.Where(x => x.tagId == id).FirstOrDefaultAsync();
             if (parameter != null)
             {
                 _context.Entry(parameter).State = EntityState.Deleted;

@@ -11,9 +11,10 @@ using thingservice.Data;
 namespace thingservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171122112321_ChangedParameterToTag")]
+    partial class ChangedParameterToTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,7 +112,7 @@ namespace thingservice.Migrations
             modelBuilder.Entity("thingservice.Model.Tag", b =>
                 {
                     b.HasOne("thingservice.Model.ThingGroup", "thingGroup")
-                        .WithMany("Tags")
+                        .WithMany("parameters")
                         .HasForeignKey("thingGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

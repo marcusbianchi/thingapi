@@ -27,7 +27,7 @@ namespace thingservice.Controllers
             if (quantity == 0)
                 quantity = 50;
             var groups = await _context.ThingGroups
-            .Include(x => x.parameters)
+            .Include(x => x.Tags)
             .Where(x => x.enabled == true)
             .OrderBy(x => x.thingGroupId)
             .Skip(startat).Take(quantity)
@@ -40,7 +40,7 @@ namespace thingservice.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var group = await _context.ThingGroups
-            .Include(x => x.parameters)
+            .Include(x => x.Tags)
             .OrderBy(x => x.thingGroupId)
             .Where(x => x.thingGroupId == id)
             .FirstOrDefaultAsync();

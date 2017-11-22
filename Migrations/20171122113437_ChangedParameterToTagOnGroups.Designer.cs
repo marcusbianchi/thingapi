@@ -11,9 +11,10 @@ using thingservice.Data;
 namespace thingservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171122113437_ChangedParameterToTagOnGroups")]
+    partial class ChangedParameterToTagOnGroups
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

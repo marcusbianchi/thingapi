@@ -7,7 +7,7 @@ namespace thingservice.Data
     {
         public DbSet<Thing> Things { get; set; }
         public DbSet<ThingGroup> ThingGroups { get; set; }
-        public DbSet<Parameter> Parameters { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
@@ -34,13 +34,6 @@ namespace thingservice.Data
             modelBuilder.Entity<ThingGroup>()
            .Property(x => x.groupDescription).HasMaxLength(100);
 
-
-            modelBuilder.Entity<Parameter>()
-                .Property(x => x.ParameterCode).HasMaxLength(50);
-            modelBuilder.Entity<Parameter>()
-            .Property(x => x.parameterName).HasMaxLength(50);
-            modelBuilder.Entity<Parameter>()
-           .Property(x => x.parameterDescription).HasMaxLength(100);
 
         }
     }

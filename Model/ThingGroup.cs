@@ -12,11 +12,13 @@ namespace thingservice.Model
         public string groupName { get; set; }
         [MaxLength(100)]
         public string groupDescription { get; set; }
+        [MaxLength(100)]
+        public string groupPrefix { get; set; }
         public bool enabled { get; set; }
         [MaxLength(50)]
         public string groupCode { get; set; }
         [Column("thingsIds", TypeName = "integer[]")]
         public int[] thingsIds { get; set; }
-        public ICollection<Parameter> parameters { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
 }

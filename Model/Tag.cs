@@ -4,18 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace thingservice.Model
 {
-    public class Parameter
+    public class Tag
     {
-        public int parameterId { get; set; }
+        public int tagId { get; set; }
         [Required]
         [MaxLength(50)]
-        public string parameterName { get; set; }
+        public string tagName { get; set; }
         [MaxLength(100)]
-        public string parameterDescription { get; set; }
+        public string tagDescription { get; set; }
         [MaxLength(100)]
         public string physicalTag { get; set; }
-        [MaxLength(50)]
-        public string ParameterCode { get; set; }
         public int thingGroupId { get; set; }
         public ThingGroup thingGroup { get; set; }
     }

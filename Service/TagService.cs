@@ -17,7 +17,7 @@ namespace thingservice.Service
 {
     public class TagService : ITagService
     {
-        
+
         private IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
         public TagService(IConfiguration configuration, ApplicationDbContext context)
@@ -27,33 +27,36 @@ namespace thingservice.Service
         }
         public async Task<(List<Tag>, int)> getTags(int startat, int quantity, TagFieldEnum fieldFilter, string fieldValue, TagFieldEnum orderField, OrderEnum order)
         {
-            var queryTag = _context.Tags.Where(x=>x.tagId > 0);
+            var queryTag = _context.Tags.Where(x => x.tagId > 0);
             queryTag = ApplyFilter(queryTag, fieldFilter, fieldValue);
             queryTag = ApplyOrder(queryTag, orderField, order);
             var tags = await queryTag
             .Skip(startat).Take(quantity).Select(item => new Tag()
-             {
+            {
                 tagId = item.tagId,
                 tagDescription = item.tagDescription,
                 tagName = item.tagName,
                 physicalTag = item.physicalTag,
                 thingGroupId = item.thingGroupId,
-                 thingGroup = new ThingGroup()
-                 {
+                thingGroup = new ThingGroup()
+                {
                     thingGroupId = item.thingGroupId,
                     groupCode = item.thingGroup.groupCode,
                     groupDescription = item.thingGroup.groupDescription,
                     groupName = item.thingGroup.groupName,
                     thingsIds = item.thingGroup.thingsIds
-                 }
-             }).ToListAsync();
-            var totalCount = tags.Count();
+                }
+            }).ToListAsync();
+            var queryTagCount = _context.Tags.Where(x => x.tagId > 0);
+            queryTagCount = ApplyFilter(queryTagCount, fieldFilter, fieldValue);
+            queryTagCount = ApplyOrder(queryTagCount, orderField, order);
+            var totalCount = await queryTagCount.CountAsync();
             return (tags, totalCount);
 
         }
 
-         private IQueryable<Tag> ApplyFilter(IQueryable<Tag> queryTags,
-        TagFieldEnum fieldFilter, string fieldValue)
+        private IQueryable<Tag> ApplyFilter(IQueryable<Tag> queryTags,
+       TagFieldEnum fieldFilter, string fieldValue)
         {
             switch (fieldFilter)
             {
@@ -65,7 +68,7 @@ namespace thingservice.Service
                     break;
                 case TagFieldEnum.tagName:
                     queryTags = queryTags.Where(x => x.tagName.Contains(fieldValue));
-                    break;                
+                    break;
                 default:
                     break;
             }
@@ -94,13 +97,13 @@ namespace thingservice.Service
                         queryTags = queryTags.OrderBy(x => x.tagName);
                     else
                         queryTags = queryTags.OrderByDescending(x => x.tagName);
-                    break;                
+                    break;
                 default:
                     queryTags = queryTags.OrderBy(x => x.tagId);
                     break;
             }
             return queryTags;
         }
-        
+
     }
 }

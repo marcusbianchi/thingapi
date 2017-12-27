@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using thingservice.Data;
+using thingservice.Service;
+using thingservice.Service.Interface;
 
 namespace thingservice
 {
@@ -34,6 +36,10 @@ namespace thingservice
                      .AllowAnyMethod()
                      .AllowAnyHeader();
              }));
+
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddTransient<ITagService,TagService>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("ThingsDb")));
             services.AddResponseCaching();

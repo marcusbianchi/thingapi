@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using thingservice.Data;
 using thingservice.Model;
+using thingservice.Service.Interface;
 
 namespace thingservice.Controllers
 {
@@ -13,41 +14,57 @@ namespace thingservice.Controllers
     public class TagsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ITagService _tagService;
 
-        public TagsController(ApplicationDbContext context)
+        public TagsController(ApplicationDbContext context,ITagService tagService)
         {
             _context = context;
+            _tagService = tagService;
         }
 
         [HttpGet]
         [ResponseCache(CacheProfileName = "thingscache")]
-        public async Task<IActionResult> Get([FromQuery]int startat, [FromQuery]int quantity)
+        public async Task<IActionResult> Get([FromQuery]int startat, [FromQuery]int quantity,
+        [FromQuery]string fieldFilter, [FromQuery]string fieldValue,
+            [FromQuery]string orderField, [FromQuery]string order)
         {
+            var fieldFilterEnum = TagFieldEnum.Default;
+            Enum.TryParse(fieldFilter, true, out fieldFilterEnum);
+            var orderFieldEnum = TagFieldEnum.Default;
+            Enum.TryParse(orderField, true, out orderFieldEnum);
+            var orderEnumValue = OrderEnum.Ascending;
+            Enum.TryParse(order, true, out orderEnumValue);
 
             if (quantity == 0)
                 quantity = 50;
-            var paremeters = await _context.Tags
-            .OrderBy(x => x.thingGroupId)
-             .Select(item => new
-             {
-                 item.tagId,
-                 item.tagDescription,
-                 item.tagName,
-                 item.physicalTag,
-                 item.thingGroupId,
-                 thingGroup = new
-                 {
-                     item.thingGroupId,
-                     item.thingGroup.groupCode,
-                     item.thingGroup.groupDescription,
-                     item.thingGroup.groupName,
-                     item.thingGroup.thingsIds
-                 }
-             })
+            //  var paremeters = await _context.Tags
+            // .OrderBy(x => x.thingGroupId)
+            //  .Select(item => new
+            //  {
+            //      item.tagId,
+            //      item.tagDescription,
+            //      item.tagName,
+            //      item.physicalTag,
+            //      item.thingGroupId,
+            //      thingGroup = new
+            //      {
+            //          item.thingGroupId,
+            //          item.thingGroup.groupCode,
+            //          item.thingGroup.groupDescription,
+            //          item.thingGroup.groupName,
+            //          item.thingGroup.thingsIds
+            //      }
+            //  })
 
-            .Skip(startat).Take(quantity)
-            .ToListAsync();
-            return Ok(paremeters);
+            // .Skip(startat).Take(quantity)
+            // .ToListAsync();
+
+
+            // return Ok(paremeters);
+
+            var (parameter, total)  = await _tagService.getTags(startat,quantity,fieldFilterEnum,fieldValue,orderFieldEnum,orderEnumValue);
+
+            return Ok(new { values = parameter, total = total });
         }
 
         [HttpGet("list/")]

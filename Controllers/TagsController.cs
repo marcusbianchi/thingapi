@@ -37,30 +37,6 @@ namespace thingservice.Controllers
 
             if (quantity == 0)
                 quantity = 50;
-            //  var paremeters = await _context.Tags
-            // .OrderBy(x => x.thingGroupId)
-            //  .Select(item => new
-            //  {
-            //      item.tagId,
-            //      item.tagDescription,
-            //      item.tagName,
-            //      item.physicalTag,
-            //      item.thingGroupId,
-            //      thingGroup = new
-            //      {
-            //          item.thingGroupId,
-            //          item.thingGroup.groupCode,
-            //          item.thingGroup.groupDescription,
-            //          item.thingGroup.groupName,
-            //          item.thingGroup.thingsIds
-            //      }
-            //  })
-
-            // .Skip(startat).Take(quantity)
-            // .ToListAsync();
-
-
-            // return Ok(paremeters);
 
             var (parameter, total)  = await _tagService.getTags(startat,quantity,fieldFilterEnum,fieldValue,orderFieldEnum,orderEnumValue);
 

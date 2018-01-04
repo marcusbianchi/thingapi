@@ -58,7 +58,7 @@ namespace thingservice.Controllers
         public async Task<IActionResult> Post([FromBody]Thing thing)
         {
             thing.thingId = 0;
-            thing.parentThingId = null;
+            thing.parentThingId = 0;
             thing.childrenThingsIds = new int[0];
             thing.physicalConnection = thing.physicalConnection != null ? thing.physicalConnection.ToLower() : null;
             if (ModelState.IsValid)

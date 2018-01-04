@@ -101,6 +101,16 @@ namespace thingservice.Controllers
             }
             return NotFound();
         }
+
+        [HttpGet("list/")]
+        [ResponseCache(CacheProfileName = "thingscache")]
+        public async Task<IActionResult> GetList([FromQuery]int[] thingGroupId)
+        {
+            var things = await _context.ThingGroups
+            .Where(x => thingGroupId.Contains(x.thingGroupId))
+            .ToListAsync();
+            return Ok(things);
+        }
     }
 
 }

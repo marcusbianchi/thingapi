@@ -165,7 +165,11 @@ These are the fields of the thing and it's constrains:
     * Body: Thing JSON
   * Delete: Remove Thing with JSON in the body of the group where GroupId =
     groupId
+
     * Body: Thing JSON
+* api/thinggroups/list{thingGroupId}{thingGroupId}
+
+  * Get: Return List of Things Groups with thingGroupId = ID
 
 # TagAPI
 

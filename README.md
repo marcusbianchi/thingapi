@@ -151,6 +151,10 @@ These are the fields of the thing and it's constrains:
   * Post: Create the Group with the JSON in the body
     * Body: Group JSON
 
+* api/thinggroups/getgroups/{thingid}
+
+  * Get: Return List of Groups that contains that thingId.
+
 * api/thinggroups/{id}
 
   * Get: Return Group with GroupId = ID

@@ -49,6 +49,20 @@ namespace thingservice.Controllers
             return Ok(group);
         }
 
+          [HttpGet("getgroups/{thingid}")]
+        [ResponseCache(CacheProfileName = "thingscache")]
+        public async Task<IActionResult> GetGroups(int thingid)
+        {
+            var group = await _context.ThingGroups
+            .Include(x => x.Tags)
+            .OrderBy(x => x.thingGroupId)
+            .Where(x => x.thingsIds.Contains(thingid))
+            .ToListAsync();
+            if (group == null)
+                return NotFound();
+            return Ok(group);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ThingGroup thingGroup)
         {

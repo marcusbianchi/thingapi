@@ -74,20 +74,22 @@ namespace thingservice.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var parameter = await _context.Tags
-            .Where(x => x.tagId == id).Select(item => new
+            .Where(x => x.tagId == id).Select(item => new Tag()
             {
-                item.tagId,
-                item.tagDescription,
-                item.tagName,
-                item.physicalTag,
-                item.thingGroupId,
-                thingGroup = new
+                tagId = item.tagId,
+                tagDescription = item.tagDescription,
+                tagName = item.tagName,
+                physicalTag = item.physicalTag,
+                tagGroup = item.tagGroup,
+                tagType = item.tagType,
+                thingGroupId = item.thingGroupId,
+                thingGroup = new ThingGroup()
                 {
-                    item.thingGroupId,
-                    item.thingGroup.groupCode,
-                    item.thingGroup.groupDescription,
-                    item.thingGroup.groupName,
-                    item.thingGroup.thingsIds
+                    thingGroupId = item.thingGroupId,
+                    groupCode = item.thingGroup.groupCode,
+                    groupDescription = item.thingGroup.groupDescription,
+                    groupName = item.thingGroup.groupName,
+                    thingsIds = item.thingGroup.thingsIds
                 }
             })
             .FirstOrDefaultAsync();

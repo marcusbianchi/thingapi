@@ -5,7 +5,8 @@ namespace thingservice.Model
         Default,
         tagName,
         tagDescription,
-        physicalTag
+        physicalTag,
+        tagType
         
     }
 }

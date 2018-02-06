@@ -7,14 +7,14 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using thingservice.Data;
-using thingservice.Model;
 
 namespace thingservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180206102646_ChangeTagFillTagType")]
+    partial class ChangeTagFillTagType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,14 +32,9 @@ namespace thingservice.Migrations
                     b.Property<string>("tagDescription")
                         .HasMaxLength(100);
 
-                    b.Property<string>("tagGroup")
-                        .HasMaxLength(50);
-
                     b.Property<string>("tagName")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<int>("tagType");
 
                     b.Property<int>("thingGroupId");
 

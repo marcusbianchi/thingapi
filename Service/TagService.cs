@@ -37,6 +37,8 @@ namespace thingservice.Service
                 tagDescription = item.tagDescription,
                 tagName = item.tagName,
                 physicalTag = item.physicalTag,
+                tagGroup = item.tagGroup,
+                tagType = item.tagType,
                 thingGroupId = item.thingGroupId,
                 thingGroup = new ThingGroup()
                 {
@@ -68,6 +70,16 @@ namespace thingservice.Service
                     break;
                 case TagFieldEnum.tagName:
                     queryTags = queryTags.Where(x => x.tagName.Contains(fieldValue));
+                    break;
+                case TagFieldEnum.tagType:
+                    if(fieldValue.ToLower() == TagTypeEnum.Input.ToString().ToLower())
+                    {
+                        queryTags = queryTags.Where(x => x.tagType == TagTypeEnum.Input);
+                    }
+                    else if(fieldValue.ToLower() == TagTypeEnum.Output.ToString().ToLower())
+                    {
+                        queryTags = queryTags.Where(x => x.tagType == TagTypeEnum.Output);
+                    }
                     break;
                 default:
                     break;

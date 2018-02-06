@@ -196,6 +196,12 @@ These are the fields of the tag and it's constrains:
 * physicalTag: Name of the Tag that represent this parameter on the real world.
   * String (Up to 100 chars)
   * Optional
+* tagGroup: Name of group that the tag belongs to.
+  * String (Up to 50 chars)
+  * Optional
+* tagType: type of tag Input or Output.
+  * Enum (Input or Output)
+  * Required
 * thingGroupId: Id of group that has this parameter.
   * Integer
   * Mandatory on Create and on Update
@@ -212,6 +218,8 @@ These are the fields of the tag and it's constrains:
   "tagDescription": "trus",
   "tagName": "da",
   "physicalTag": "asda",
+  "tagGroup": "teste",
+  "tagType": "Output",
   "thingGroupId": 1,
   "thingGroup": {
     "thingGroupId": 1,

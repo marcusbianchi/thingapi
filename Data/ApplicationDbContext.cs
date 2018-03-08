@@ -8,6 +8,7 @@ namespace thingservice.Data
         public DbSet<Thing> Things { get; set; }
         public DbSet<ThingGroup> ThingGroups { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<ToolGroupAssociated> ToolGroupAssociates {get;set;}
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

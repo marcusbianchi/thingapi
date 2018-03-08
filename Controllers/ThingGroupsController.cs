@@ -28,6 +28,7 @@ namespace thingservice.Controllers
                 quantity = 50;
             var groups = await _context.ThingGroups
             .Include(x => x.Tags)
+            .Include(x => x.toolGroupAssociates)
             .Where(x => x.enabled == true)
             .OrderBy(x => x.thingGroupId)
             .Skip(startat).Take(quantity)
@@ -41,6 +42,7 @@ namespace thingservice.Controllers
         {
             var group = await _context.ThingGroups
             .Include(x => x.Tags)
+            .Include(x => x.toolGroupAssociates)
             .OrderBy(x => x.thingGroupId)
             .Where(x => x.thingGroupId == id)
             .FirstOrDefaultAsync();
@@ -55,6 +57,7 @@ namespace thingservice.Controllers
         {
             var group = await _context.ThingGroups
             .Include(x => x.Tags)
+            .Include(x => x.toolGroupAssociates)
             .OrderBy(x => x.thingGroupId)
             .Where(x => x.thingsIds.Contains(thingid))
             .ToListAsync();

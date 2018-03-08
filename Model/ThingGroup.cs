@@ -19,6 +19,7 @@ namespace thingservice.Model
         public string groupCode { get; set; }
         [Column("thingsIds", TypeName = "integer[]")]
         public int[] thingsIds { get; set; }
+        public ICollection<ToolGroupAssociated> toolGroupAssociates {get;set;}
         public ICollection<Tag> Tags { get; set; }
     }
 }

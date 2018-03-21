@@ -23,8 +23,8 @@ namespace thingservice.Controllers {
 
             if (quantity == 0)
                 quantity = 50;
-            var groups = await _thingGroupService.getThingGroups (startat, quantity);
-            return Ok (groups);
+            var (groups, total) = await _thingGroupService.getThingGroups (startat, quantity);
+            return Ok (new { values = groups, total = total });
         }
 
         [HttpGet ("{id}")]
@@ -59,7 +59,7 @@ namespace thingservice.Controllers {
         [HttpPut ("{id}")]
         public async Task<IActionResult> Put (int id, [FromBody] ThingGroup thingGroup) {
             if (ModelState.IsValid) {
-                var curThing = _thingGroupService.updateThingGroup (id, thingGroup);
+                var curThing = await _thingGroupService.updateThingGroup (id, thingGroup);
                 if (id != thingGroup.thingGroupId) {
                     return NotFound ();
                 }

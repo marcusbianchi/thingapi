@@ -27,7 +27,7 @@ namespace thingservice.Model {
         private string[] _possibleTagGroups;
         public string[] possibleTagGroups {
             get {
-                if (this.possibleTagGroups == null)
+                if (this._possibleTagGroups == null)
                     return new string[0];
                 else
                     return this._possibleTagGroups;

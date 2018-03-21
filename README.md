@@ -116,6 +116,9 @@ These are the fields of the thing and it's constrains:
 * thingsIds: List of Id of things that belong to this group.
   * Array Integer
   * Ignored on Create and Update
+* possibleTagGroups: List of possible tag groups for this Group.
+  * Array String
+  * Optional
 * parameters: List of the group's parameters
   * Array Parameters
   * Ignored on Create and Update
@@ -130,6 +133,7 @@ These are the fields of the thing and it's constrains:
   "groupCode": "teste",
   "groupPrefix": "teste_prefix",
   "thingsIds": [],
+  "possibleTagGroups": ["Pressão Zona 1"],
   "tags": [
     {
       "tagId": 1,

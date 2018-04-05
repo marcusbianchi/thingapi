@@ -1,7 +1,7 @@
 # ThingAPI
 
 API to Manage Things on Lorien. Used to create, update, read and delete Things.
-Also responsible for managing its children. Default Port: 5001
+Also responsible for managing its children. 
 
 ## Thing Data Format
 

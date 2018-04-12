@@ -38,7 +38,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet ("list/")]
-        [ResponseCache (CacheProfileName = "thingscache")]
+        //[ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> GetList ([FromQuery] int[] tagId) {
             var things = await _context.Tags
                 .Where (x => tagId.Contains (x.tagId))

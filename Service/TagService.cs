@@ -57,6 +57,13 @@ namespace thingservice.Service
 
         }
 
+        public async Task<List<Tag>> getTagsPerType(TagTypeEnum type)
+        {
+            var tagsList = await _context.Tags.Where(x=> x.tagType == type).ToListAsync();
+
+            return tagsList;
+        }
+
         private IQueryable<Tag> ApplyFilter(IQueryable<Tag> queryTags,
        TagFieldEnum fieldFilter, string fieldValue)
         {

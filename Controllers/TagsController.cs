@@ -61,6 +61,18 @@ namespace thingservice.Controllers {
             return Ok (things);
         }
 
+         [HttpGet ("tagType/{tagType}")]
+        //[ResponseCache (CacheProfileName = "thingscache")]
+        public async Task<IActionResult> GetList (TagTypeEnum tagType) {
+            
+            var tagList = await _tagService.getTagsPerType(tagType);
+
+            if(tagList == null || tagList.Count ==0)
+                return NotFound();
+
+            return Ok (tagList);
+        }
+
         [HttpGet ("{id}")]
         [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get (int id) {

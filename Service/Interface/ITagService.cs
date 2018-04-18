@@ -8,5 +8,6 @@ namespace thingservice.Service.Interface
     public interface ITagService
     {
          Task<(List<Tag>, int)> getTags(int startat, int quantity, TagFieldEnum fieldFilter, string fieldValue, TagFieldEnum orderField, OrderEnum order);
+         Task<List<Tag>> getTagsPerType(TagTypeEnum type);
     }
 }

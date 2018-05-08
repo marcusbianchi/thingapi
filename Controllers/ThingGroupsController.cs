@@ -88,7 +88,6 @@ namespace thingservice.Controllers {
 
         [HttpGet ("list/")]
         [SecurityFilter ("thinggroups__allow_update")]
-        [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> GetList ([FromQuery] int[] thingGroupId) {
             var things = await _thingGroupService.getThingGroupsById (thingGroupId);
             return Ok (things);

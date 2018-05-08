@@ -30,7 +30,6 @@ namespace thingservice.Controllers {
 
         [HttpGet ("list/")]
         [SecurityFilter ("things__allow_read")]
-        [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> GetList ([FromQuery] int[] thingId) {
             var things = await _context.Things
                 .Where (x => thingId.Contains (x.thingId))

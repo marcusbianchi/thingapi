@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
 using thingservice.Data;
 using thingservice.Model;
 using thingservice.Service.Interface;
@@ -20,7 +21,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet]
-        [ResponseCache (CacheProfileName = "thingscache")]
+        [SecurityFilter ("tags__allow_read")]
         public async Task<IActionResult> Get ([FromQuery] int startat, [FromQuery] int quantity, [FromQuery] string fieldFilter, [FromQuery] string fieldValue, [FromQuery] string orderField, [FromQuery] string order) {
             var fieldFilterEnum = TagFieldEnum.Default;
             Enum.TryParse (fieldFilter, true, out fieldFilterEnum);
@@ -38,7 +39,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet ("list/")]
-        //[ResponseCache (CacheProfileName = "thingscache")]
+        [SecurityFilter ("tags__allow_read")]
         public async Task<IActionResult> GetList ([FromQuery] int[] tagId) {
             var things = await _context.Tags
                 .Where (x => tagId.Contains (x.tagId))
@@ -61,20 +62,20 @@ namespace thingservice.Controllers {
             return Ok (things);
         }
 
-         [HttpGet ("tagType/{tagType}")]
-        //[ResponseCache (CacheProfileName = "thingscache")]
+        [HttpGet ("tagType/{tagType}")]
+        [SecurityFilter ("tags__allow_read")]
         public async Task<IActionResult> GetList (TagTypeEnum tagType) {
-            
-            var tagList = await _tagService.getTagsPerType(tagType);
 
-            if(tagList == null || tagList.Count ==0)
-                return NotFound();
+            var tagList = await _tagService.getTagsPerType (tagType);
+
+            if (tagList == null || tagList.Count == 0)
+                return NotFound ();
 
             return Ok (tagList);
         }
 
         [HttpGet ("{id}")]
-        [ResponseCache (CacheProfileName = "thingscache")]
+        [SecurityFilter ("tags__allow_read")]
         public async Task<IActionResult> Get (int id) {
             var parameter = await _context.Tags
                 .Where (x => x.tagId == id).Select (item => new Tag () {
@@ -102,6 +103,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpPost]
+        [SecurityFilter ("tags__allow_update")]
         public async Task<IActionResult> Post ([FromBody] Tag tag) {
 
             if (ModelState.IsValid) {
@@ -116,6 +118,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpPut ("{id}")]
+        [SecurityFilter ("tags__allow_update")]
         public async Task<IActionResult> Put (int id, [FromBody] Tag tag) {
             if (ModelState.IsValid) {
                 var curThing = await _context.Tags
@@ -136,6 +139,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpDelete ("{id}")]
+        [SecurityFilter ("tags__allow_update")]
         public async Task<IActionResult> Delete (int id) {
             var parameter = await _context.Tags.Where (x => x.tagId == id).FirstOrDefaultAsync ();
             if (parameter != null) {

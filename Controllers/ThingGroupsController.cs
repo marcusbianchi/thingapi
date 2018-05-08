@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
 using thingservice.Data;
 using thingservice.Model;
 using thingservice.Service.Interface;
@@ -18,6 +19,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet]
+        [SecurityFilter ("thinggroups__allow_read")]
         [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get ([FromQuery] int startat, [FromQuery] int quantity) {
 
@@ -28,6 +30,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet ("{id}")]
+        [SecurityFilter ("thinggroups__allow_read")]
         [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> Get (int id) {
             var group = await _thingGroupService.getThingGroup (id);
@@ -37,6 +40,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet ("getgroups/{thingid}")]
+        [SecurityFilter ("thinggroups__allow_read")]
         [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> GetGroups (int thingid) {
             var group = await _thingGroupService.GetThingsFromThingGroup (thingid);
@@ -46,6 +50,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpPost]
+        [SecurityFilter ("thinggroups__allow_update")]
         public async Task<IActionResult> Post ([FromBody] ThingGroup thingGroup) {
             thingGroup.thingGroupId = 0;
             thingGroup.thingsIds = new int[0];
@@ -57,6 +62,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpPut ("{id}")]
+        [SecurityFilter ("thinggroups__allow_update")]
         public async Task<IActionResult> Put (int id, [FromBody] ThingGroup thingGroup) {
             if (ModelState.IsValid) {
                 var curThing = await _thingGroupService.updateThingGroup (id, thingGroup);
@@ -70,6 +76,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpDelete ("{id}")]
+        [SecurityFilter ("thinggroups__allow_update")]
         public async Task<IActionResult> Delete (int id) {
             var curThing = await _thingGroupService.deleteThingGroup (id);
             if (curThing != null) {
@@ -80,6 +87,7 @@ namespace thingservice.Controllers {
         }
 
         [HttpGet ("list/")]
+        [SecurityFilter ("thinggroups__allow_update")]
         [ResponseCache (CacheProfileName = "thingscache")]
         public async Task<IActionResult> GetList ([FromQuery] int[] thingGroupId) {
             var things = await _thingGroupService.getThingGroupsById (thingGroupId);

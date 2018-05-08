@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
 using thingservice.Data;
 using thingservice.Model;
 
@@ -18,8 +19,8 @@ namespace thingservice.Controllers {
 
         // GET api/values
         [HttpGet ("{parentId}")]
+        [SecurityFilter ("things__allow_read")]
         [ResponseCache (CacheProfileName = "thingscache")]
-
         public async Task<IActionResult> Get (int parentId) {
             var parentThing = await _context.Things.Where (x => x.thingId == parentId).FirstOrDefaultAsync ();
             if (parentThing != null) {
@@ -31,6 +32,7 @@ namespace thingservice.Controllers {
 
         // POST api/values
         [HttpPost ("{parentId}")]
+        [SecurityFilter ("things__allow_update")]
         public async Task<IActionResult> Post (int parentId, [FromBody] Thing thing) {
 
             if (thing.thingId == parentId)
@@ -68,6 +70,7 @@ namespace thingservice.Controllers {
 
         // DELETE api/values/5
         [HttpDelete ("{parentId}")]
+        [SecurityFilter ("things__allow_update")]
         public async Task<IActionResult> Delete (int parentId, [FromBody] Thing thing) {
             var parentThing = await _context.Things.Where (x => x.thingId == parentId).FirstOrDefaultAsync ();
             var childrenThing = await _context.Things.Where (x => x.thingId == thing.thingId).FirstOrDefaultAsync ();
